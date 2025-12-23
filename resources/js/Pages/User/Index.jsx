@@ -95,6 +95,10 @@ export default function userIndex({ users }) {
                                                     links={users.links}
                                                 />
                                             </td>
+                                            <td
+                                                colSpan="4"
+                                                className="px-3 py-2"
+                                            ></td>
                                         </tr>
                                     </tfoot>
                                 </table>
