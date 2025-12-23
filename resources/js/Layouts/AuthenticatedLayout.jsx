@@ -5,29 +5,42 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, usePage } from "@inertiajs/react";
 import { useState } from "react";
 
-export default function AuthenticatedLayout({ header, children }) {
+export default function AuthenticatedLayout({ header, role, children }) {
     const user = usePage().props.auth.user;
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
-    const itemMenu = [
-        {
-            name: "Dashboard",
-            href: route("dashboard"),
-            active: route().current("dashboard"),
-        },
-        {
-            name: "Users",
-            href: route("users"),
-            active: route().current("users"),
-        },
-        {
-            name: "Absensi",
-            href: route("dashboard"),
-            active: route().current("dashboard"),
-        },
-    ];
+    const itemMenu = () => {
+        if (user.role == "admin") {
+            return [
+                {
+                    name: "Dashboard",
+                    href: route("dashboard"),
+                    active: route().current("dashboard"),
+                },
+                {
+                    name: "Users",
+                    href: route("users"),
+                    active: route().current("users"),
+                },
+                {
+                    name: "Absensi",
+                    href: route("dashboard"),
+                    active: route().current("dashboard"),
+                },
+            ];
+        }
+        if (user.role == "user") {
+            return [
+                {
+                    name: "Dashboard",
+                    href: route("dashboard"),
+                    active: route().current("dashboard"),
+                },
+            ];
+        }
+    };
 
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -37,12 +50,14 @@ export default function AuthenticatedLayout({ header, children }) {
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
                                 <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                                    <div className="p-1 bg-white rounded-full">
+                                        <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                                    </div>
                                 </Link>
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                {itemMenu.map((item, index) => (
+                                {itemMenu(user.role).map((item, index) => (
                                     <NavLink
                                         key={index}
                                         href={item.href}
@@ -149,7 +164,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     }
                 >
                     <div className="space-y-1 pb-3 pt-2">
-                        {itemMenu.map((item, index) => (
+                        {itemMenu(user.role).map((item, index) => (
                             <ResponsiveNavLink
                                 key={index}
                                 href={item.href}

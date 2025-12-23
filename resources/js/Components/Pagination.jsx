@@ -8,8 +8,8 @@ export default function Pagination({ links }) {
                     href={link.url}
                     className={`px-3 py-1 rounded-md border ${
                         link.active
-                            ? "bg-blue-500 text-white border-blue-500"
-                            : "bg-white text-blue-500 border-blue-500 hover:bg-blue-100"
+                            ? "bg-gray-700 text-white border-gray-300"
+                            : "bg-gray-700 text-gray-300 border-gray-500 hover:bg-gray-600 hover:text-white"
                     } mx-1`}
                     dangerouslySetInnerHTML={{ __html: link.label }}
                 ></a>
